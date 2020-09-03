@@ -25,6 +25,7 @@
     <orderEntry type="library" name="Gradle: de.huxhorn.lilith:de.huxhorn.lilith.3rdparty.junique:1.0.4" level="project" />
     <orderEntry type="library" name="Gradle: org.java-websocket:Java-WebSocket:1.4.0" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.projectlombok:lombok:1.18.12" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.11" level="project" />
     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />

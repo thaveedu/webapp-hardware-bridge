@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import org.slf4j.LoggerFactory;
-import tigerworkshop.webapphardwarebridge.responses.Setting;
+import tigerworkshop.webapphardwarebridge.models.Setting;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -15,7 +15,7 @@ public class SettingService {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(SettingService.class.getName());
     private static final String SETTING_FILENAME = "setting.json";
     private static final String SETTING_FALLBACK_FILENAME = "setting.default.json";
-    private static SettingService instance = new SettingService();
+    private static final SettingService instance = new SettingService();
     private Setting setting = null;
 
     private SettingService() {

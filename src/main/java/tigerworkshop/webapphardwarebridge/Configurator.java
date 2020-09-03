@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+@Deprecated
 public class Configurator extends Application {
     public static void main(String[] args) {
         launch(args);

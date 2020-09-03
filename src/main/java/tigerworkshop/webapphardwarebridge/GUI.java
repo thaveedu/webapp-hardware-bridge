@@ -35,9 +35,9 @@ public class GUI extends Application implements NotificationListenerInterface {
         Server server = new Server(this);
 
         try {
-            JUnique.acquireLock(Config.APP_ID);
+            JUnique.acquireLock(Constants.APP_ID);
         } catch (AlreadyLockedException e) {
-            logger.error(Config.APP_ID + " already running");
+            logger.error(Constants.APP_ID + " already running");
             System.exit(1);
         }
 
@@ -51,7 +51,7 @@ public class GUI extends Application implements NotificationListenerInterface {
             final Image image = ImageIO.read(GUI.class.getResource("/icon.png"));
 
             tray = SystemTray.getSystemTray();
-            trayIcon = new TrayIcon(image, Config.APP_NAME);
+            trayIcon = new TrayIcon(image, Constants.APP_NAME);
 
             // Create a pop-up menu components
             MenuItem settingItem = new MenuItem("Configurator");
@@ -125,7 +125,7 @@ public class GUI extends Application implements NotificationListenerInterface {
 
             tray.add(trayIcon);
 
-            notify(Config.APP_NAME, "is running in background!", TrayIcon.MessageType.INFO);
+            notify(Constants.APP_NAME, "is running in background!", TrayIcon.MessageType.INFO);
         } catch (Exception e) {
             System.out.println("TrayIcon could not be added.");
             e.printStackTrace();

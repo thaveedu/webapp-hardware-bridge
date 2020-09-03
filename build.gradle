@@ -38,6 +38,12 @@ allprojects {
 
         compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.62'
 
+        compileOnly 'org.projectlombok:lombok:1.18.12'
+        annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.12'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+
         compile group: 'de.huxhorn.lilith', name: 'de.huxhorn.lilith.3rdparty.junique', version: '1.0.4'
 
         compile group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.4.0'

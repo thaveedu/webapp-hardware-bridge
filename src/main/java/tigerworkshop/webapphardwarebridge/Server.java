@@ -6,7 +6,7 @@ import it.sauronsoftware.junique.JUnique;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.NotificationListenerInterface;
-import tigerworkshop.webapphardwarebridge.responses.Setting;
+import tigerworkshop.webapphardwarebridge.models.Setting;
 import tigerworkshop.webapphardwarebridge.services.SettingService;
 import tigerworkshop.webapphardwarebridge.utils.CertificateGenerator;
 import tigerworkshop.webapphardwarebridge.utils.TLSUtil;
@@ -37,9 +37,9 @@ public class Server {
 
     public static void main(String[] args) {
         try {
-            JUnique.acquireLock(Config.APP_ID);
+            JUnique.acquireLock(Constants.APP_ID);
         } catch (AlreadyLockedException e) {
-            logger.error(Config.APP_ID + " already running");
+            logger.error(Constants.APP_ID + " already running");
             System.exit(1);
         }
 
@@ -51,7 +51,7 @@ public class Server {
             shouldRestart = false;
 
             logger.info("Application Started");
-            logger.info("Program Version: " + Config.VERSION);
+            logger.info("Program Version: " + Constants.VERSION);
 
             logger.debug("OS Name: " + System.getProperty("os.name"));
             logger.debug("OS Version: " + System.getProperty("os.version"));

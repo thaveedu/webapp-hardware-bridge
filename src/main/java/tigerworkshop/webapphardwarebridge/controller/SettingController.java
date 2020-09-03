@@ -19,7 +19,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import tigerworkshop.webapphardwarebridge.responses.Setting;
+import tigerworkshop.webapphardwarebridge.models.Setting;
 import tigerworkshop.webapphardwarebridge.services.SettingService;
 import tigerworkshop.webapphardwarebridge.utils.ObservableStringPair;
 
@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+@Deprecated
 @SuppressWarnings("Duplicates")
 public class SettingController implements Initializable {
     @FXML
