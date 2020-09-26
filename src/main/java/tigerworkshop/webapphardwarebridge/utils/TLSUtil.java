@@ -96,7 +96,7 @@ public class TLSUtil {
         String[] tokens = data.split("-----BEGIN CERTIFICATE-----");
         tokens = tokens[1].split("-----END CERTIFICATE-----");
         CertificateFactory factory = CertificateFactory.getInstance("X.509");
-        return (X509Certificate) factory.generateCertificate(new ByteArrayInputStream(Base64.getDecoder().decode(tokens[0])));
+        return (X509Certificate) factory.generateCertificate(new ByteArrayInputStream(Base64.getDecoder().decode(tokens[0].replaceAll("\n", ""))));
     }
 
     private static RSAPrivateKey readKey(File key) throws Exception {
@@ -104,7 +104,7 @@ public class TLSUtil {
         String[] tokens = data.split("-----BEGIN PRIVATE KEY-----");
         tokens = tokens[1].split("-----END PRIVATE KEY-----");
 
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(tokens[0]));
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(tokens[0].replaceAll("\n", "")));
         KeyFactory factory = KeyFactory.getInstance("RSA");
         return (RSAPrivateKey) factory.generatePrivate(spec);
     }
@@ -122,7 +122,7 @@ public class TLSUtil {
             if (token.isEmpty()) continue;
             CertificateFactory factory = CertificateFactory.getInstance("X.509");
             String[] certParts = tokens[1].split("-----END CERTIFICATE-----");
-            result.add((X509Certificate) factory.generateCertificate(new ByteArrayInputStream(Base64.getDecoder().decode(certParts[0]))));
+            result.add((X509Certificate) factory.generateCertificate(new ByteArrayInputStream(Base64.getDecoder().decode(certParts[0].replaceAll("\n", "")))));
         }
 
         return result;
