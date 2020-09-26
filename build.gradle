@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'webapp-hardware-bridge'
-version '1.0.0-alpha1'
+version '1.0.0-alpha2'
 
 sourceCompatibility = 1.8
 
