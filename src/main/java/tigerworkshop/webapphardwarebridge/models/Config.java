@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class Config {
     ConfigWebSocketServer server = new ConfigWebSocketServer();
     ConfigCloudProxy cloudProxy = new ConfigCloudProxy();
-    ConfigDocument document = new ConfigDocument();
+    ConfigDownloader downloader = new ConfigDownloader();
     ConfigPrint print = new ConfigPrint();
     ConfigAuthentication authentication = new ConfigAuthentication();
     HashMap<String, ConfigPrinter> printers = new HashMap<>();
@@ -31,10 +31,10 @@ public class Config {
     }
 
     @Data
-    public static class ConfigDocument {
-        Boolean downloadIgnoreTLSCertificateError = false;
-        Integer downloadTimeout = 30;
+    public static class ConfigDownloader {
+        Boolean ignoreTLSCertificateError = false;
         String path = "documents/";
+        Integer timeout = 30;
     }
 
     @Data

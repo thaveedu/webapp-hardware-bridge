@@ -15,7 +15,7 @@ public class DocumentService {
     private static final ConfigService configService = ConfigService.getInstance();
 
     private DocumentService() {
-        File directory = new File(configService.getConfig().getDocument().getPath());
+        File directory = new File(configService.getConfig().getDownloader().getPath());
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -34,7 +34,7 @@ public class DocumentService {
     }
 
     public static void download(String urlString) throws Exception {
-        DownloadUtil.file(urlString, getPathFromUrl(urlString), true, configService.getConfig().getDocument().getDownloadIgnoreTLSCertificateError(), configService.getConfig().getDocument().getDownloadTimeout());
+        DownloadUtil.file(urlString, getPathFromUrl(urlString), true, configService.getConfig().getDownloader().getIgnoreTLSCertificateError(), configService.getConfig().getDownloader().getTimeout());
     }
 
     public static File getFileFromUrl(String urlString) {
@@ -48,7 +48,7 @@ public class DocumentService {
     public static String getPathFromUrl(String urlString) {
         urlString = urlString.replace(" ", "%20");
         String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
-        return configService.getConfig().getDocument().getPath() + filename;
+        return configService.getConfig().getDownloader().getPath() + filename;
     }
 
     public void prepareDocument(PrintDocument printDocument) throws Exception {

@@ -14,10 +14,10 @@
     "url": "ws://127.0.0.1:22212",
     "timeout": 30
   },
-  "document": {
-    "downloadIgnoreTLSCertificateError": false,
-    "downloadTimeout": 30,
-    "path": "documents/"
+  "downloader": {
+    "ignoreTLSCertificateError": false,
+    "path": "documents/",
+    "timeout": 30
   },
   "print": {
     "fallbackToDefaultPrinter": false,
