@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.NotificationListenerInterface;
 import tigerworkshop.webapphardwarebridge.models.Config;
 import tigerworkshop.webapphardwarebridge.services.ConfigService;
+import tigerworkshop.webapphardwarebridge.services.ApiServerService;
 import tigerworkshop.webapphardwarebridge.utils.CertificateGenerator;
 import tigerworkshop.webapphardwarebridge.utils.TLSUtil;
 import tigerworkshop.webapphardwarebridge.websocketservices.CloudProxyClientWebSocketService;
@@ -99,16 +100,22 @@ public class Server {
                     if (config.getServer().getTlsSelfSigned()) {
                         logger.info("TLS Enabled with self-signed certificate");
                         CertificateGenerator.generateSelfSignedCertificate(config.getServer().getAddress(), config.getServer().getTlsCert(), config.getServer().getTlsKey());
-                        logger.info("For first time setup, open in browser and trust the certificate: " + config.getUri().replace("wss", "https"));
+                        logger.info("For first time setup, open in browser and trust the certificate: " + config.getWebSocketUri().replace("wss", "https"));
                     }
 
                     bridgeWebSocketServer.setWebSocketFactory(TLSUtil.getSecureFactory(config.getServer().getTlsCert(), config.getServer().getTlsKey(), config.getServer().getTlsCaBundle()));
                 }
 
+                // API/HTTP Configurator
+                if (config.getApi().getEnabled()) {
+                    ApiServerService apiServer = new ApiServerService();
+                    apiServer.start();
+                }
+
                 // Start WebSocket Server
                 bridgeWebSocketServer.start();
 
-                logger.info("WebSocket started on " + config.getUri());
+                logger.info("WebSocket started on " + config.getWebSocketUri());
 
                 while (!shouldRestart && !shouldStop) {
                     Thread.sleep(100);

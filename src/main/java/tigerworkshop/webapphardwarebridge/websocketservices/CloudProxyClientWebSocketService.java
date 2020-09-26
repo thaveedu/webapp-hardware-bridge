@@ -30,7 +30,7 @@ public class CloudProxyClientWebSocketService implements WebSocketServiceInterfa
                     try {
                         logger.trace("ProxyClientWebSocketService initializing");
 
-                        client = new WebSocketClient(new URI(configService.getConfig().getUri())) {
+                        client = new WebSocketClient(new URI(configService.getConfig().getWebSocketUri())) {
                             @Override
                             public void onOpen(ServerHandshake handshakedata) {
                                 logger.info("ProxyClientWebSocketService connected to " + this.getURI() + ", timeout = " + configService.getConfig().getCloudProxy().getTimeout());

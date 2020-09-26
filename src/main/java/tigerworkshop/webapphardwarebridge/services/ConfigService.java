@@ -38,6 +38,11 @@ public class ConfigService {
         return config;
     }
 
+    public void replaceConfig(Config newConfig) {
+        config = newConfig;
+        saveConfig();
+    }
+
     public Boolean saveConfig() {
         try {
             Writer writer = new FileWriter(CONFIG_FILENAME);

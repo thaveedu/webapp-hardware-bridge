@@ -7,15 +7,20 @@ import java.util.HashMap;
 @Data
 public class Config {
     ConfigWebSocketServer server = new ConfigWebSocketServer();
-    ConfigCloudProxy cloudProxy = new ConfigCloudProxy();
+    ConfigApiServer api = new ConfigApiServer();
     ConfigDownloader downloader = new ConfigDownloader();
     ConfigPrint print = new ConfigPrint();
     ConfigAuthentication authentication = new ConfigAuthentication();
+    ConfigCloudProxy cloudProxy = new ConfigCloudProxy();
     HashMap<String, ConfigPrinter> printers = new HashMap<>();
     HashMap<String, ConfigSerial> serials = new HashMap<>();
 
-    public String getUri() {
+    public String getWebSocketUri() {
         return (getServer().getTlsEnabled() ? "wss" : "ws") + "://" + getServer().getAddress() + ":" + getServer().getPort();
+    }
+
+    public String getApiUri() {
+        return "http://" + getApi().getAddress() + ":" + getApi().getPort();
     }
 
     @Data
@@ -28,6 +33,14 @@ public class Config {
         String tlsCert = "tls/default-cert.pem";
         String tlsKey = "tls/default-key.pem";
         String tlsCaBundle = "";
+    }
+
+    @Data
+    public static class ConfigApiServer {
+        Boolean enabled = true;
+        String address = "127.0.0.1";
+        String bind = "127.0.0.1";
+        Integer port = 12222;
     }
 
     @Data

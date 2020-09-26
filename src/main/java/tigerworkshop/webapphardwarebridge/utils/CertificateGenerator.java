@@ -1,6 +1,6 @@
 package tigerworkshop.webapphardwarebridge.utils;
 
-import com.google.common.net.InetAddresses;
+import org.apache.commons.validator.routines.InetAddressValidator;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.asn1.x509.GeneralName;
@@ -58,7 +58,8 @@ public class CertificateGenerator {
                 X509v3CertificateBuilder certificateBuilder = new X509v3CertificateBuilder(issuer, serialNumber, validFrom, validTo, subject, subPubKeyInfo);
 
                 final GeneralNames subjectAltNames;
-                if (InetAddresses.isInetAddress(address)) {
+                InetAddressValidator inetAddressValidator = InetAddressValidator.getInstance();
+                if (inetAddressValidator.isValid(address)) {
                     subjectAltNames = new GeneralNames(new GeneralName(GeneralName.iPAddress, address));
                 } else {
                     subjectAltNames = new GeneralNames(new GeneralName(GeneralName.dNSName, address));
