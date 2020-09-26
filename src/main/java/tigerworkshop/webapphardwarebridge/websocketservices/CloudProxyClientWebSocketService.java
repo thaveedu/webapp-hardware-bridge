@@ -12,9 +12,9 @@ import java.net.URI;
 
 public class CloudProxyClientWebSocketService implements WebSocketServiceInterface {
     WebSocketClient client;
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final ConfigService configService = ConfigService.getInstance();
     private WebSocketServerInterface server = null;
-    private ConfigService configService = ConfigService.getInstance();
     private Thread thread;
 
     public CloudProxyClientWebSocketService() {

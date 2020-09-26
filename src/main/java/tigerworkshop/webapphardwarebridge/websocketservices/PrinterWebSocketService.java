@@ -118,7 +118,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
      * Return if PrintDocument is raw
      */
     private Boolean isRaw(PrintDocument printDocument) {
-        return printDocument.getRawContent() != null && !printDocument.getRawContent().isEmpty();
+        return printDocument.getRaw_content() != null && !printDocument.getRaw_content().isEmpty();
     }
 
     /**
@@ -148,7 +148,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
         logger.debug("printRaw::" + printDocument);
         long timeStart = System.currentTimeMillis();
 
-        byte[] bytes = Base64.decodeBase64(printDocument.getRawContent());
+        byte[] bytes = Base64.decodeBase64(printDocument.getRaw_content());
 
         DocPrintJob docPrintJob = getDocPrintJob(printDocument.getType());
         Doc doc = new SimpleDoc(bytes, DocFlavor.BYTE_ARRAY.AUTOSENSE, null);
@@ -211,10 +211,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
 
         PageFormat pageFormat = getPageFormat(job);
 
-        PDDocument document = null;
-        try {
-            document = PDDocument.load(new File(filename));
-
+        try (PDDocument document = PDDocument.load(new File(filename))) {
             Book book = new Book();
             for (int i = 0; i < document.getNumberOfPages(); i += 1) {
                 // Rotate Page Automatically
@@ -243,13 +240,6 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
 
             long timeFinish = System.currentTimeMillis();
             logger.info("Document " + filename + " printed in " + (timeFinish - timeStart) + "ms");
-        } finally {
-            if (document != null) {
-                try {
-                    document.close();
-                } catch (Exception e) {
-                }
-            }
         }
     }
 

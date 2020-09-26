@@ -34,7 +34,7 @@ public class CertificateGenerator {
     private static final String CERTIFICATE_DOMAIN = "CN=127.0.0.1";
     private static final int CERTIFICATE_BITS = 2048;
 
-    private static Logger logger = LoggerFactory.getLogger("CertificateGenerator");
+    private static final Logger logger = LoggerFactory.getLogger("CertificateGenerator");
 
     public static void generateSelfSignedCertificate(String address, String certificatePath, String keyPath) throws OperatorCreationException, CertificateException, CertIOException, NoSuchAlgorithmException {
         Security.addProvider(new BouncyCastleProvider());

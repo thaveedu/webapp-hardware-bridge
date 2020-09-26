@@ -2,7 +2,6 @@ package tigerworkshop.webapphardwarebridge.services;
 
 import org.bouncycastle.util.encoders.Base64;
 import org.slf4j.LoggerFactory;
-import tigerworkshop.webapphardwarebridge.Constants;
 import tigerworkshop.webapphardwarebridge.responses.PrintDocument;
 import tigerworkshop.webapphardwarebridge.utils.DownloadUtil;
 
@@ -53,16 +52,16 @@ public class DocumentService {
     }
 
     public void prepareDocument(PrintDocument printDocument) throws Exception {
-        if (printDocument.getRawContent() != null && !printDocument.getRawContent().isEmpty()) {
+        if (printDocument.getRaw_content() != null && !printDocument.getRaw_content().isEmpty()) {
             return;
         }
 
-        if (printDocument.getUrl() == null && printDocument.getFileContent() == null) {
+        if (printDocument.getUrl() == null && printDocument.getFile_content() == null) {
             throw new Exception("URL is null");
         }
 
-        if (printDocument.getFileContent() != null) {
-            extract(printDocument.getFileContent(), printDocument.getUrl());
+        if (printDocument.getFile_content() != null) {
+            extract(printDocument.getFile_content(), printDocument.getUrl());
         } else {
             download(printDocument.getUrl());
         }

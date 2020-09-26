@@ -1,5 +1,7 @@
 package tigerworkshop.webapphardwarebridge.utils;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +17,7 @@ public class AnnotatedPrintable implements Printable {
     private static final Double MM_TO_PPI = 2.8346457;
     private final Printable printable;
     private final ArrayList<AnnotatedPrintableAnnotation> annotatedPrintableAnnotationArrayList = new ArrayList<>();
-    private Logger logger = LoggerFactory.getLogger(AnnotatedPrintable.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(AnnotatedPrintable.class.getName());
 
     public AnnotatedPrintable(Printable printable) {
         this.printable = printable;
@@ -59,8 +61,8 @@ public class AnnotatedPrintable implements Printable {
                     float realX = (float) (clipX + annotatedPrintableAnnotation.getX() * MM_TO_PPI);
                     float realY = (float) (clipY + annotatedPrintableAnnotation.getY() * MM_TO_PPI);
 
-                    Integer isBold = annotatedPrintableAnnotation.getBold() != null ? Font.BOLD : Font.PLAIN;
-                    Integer fontSize = annotatedPrintableAnnotation.getSize() != null ? annotatedPrintableAnnotation.getSize() : 10;
+                    int isBold = annotatedPrintableAnnotation.getBold() != null ? Font.BOLD : Font.PLAIN;
+                    int fontSize = annotatedPrintableAnnotation.getSize() != null ? annotatedPrintableAnnotation.getSize() : 10;
 
                     Font font = new Font("Sans-Serif", isBold, fontSize);
                     graphics2D.setColor(Color.BLACK);
@@ -76,53 +78,14 @@ public class AnnotatedPrintable implements Printable {
         return result;
     }
 
-    public class AnnotatedPrintableAnnotation {
-
+    @Getter
+    @Setter
+    public static class AnnotatedPrintableAnnotation {
         private String field;
         private String text;
         private Float x;
         private Float y;
         private Integer size;
         private Boolean bold;
-
-        public String getField() {
-            return field;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public Float getX() {
-            return x;
-        }
-
-        public Float getY() {
-            return y;
-        }
-
-        public Integer getSize() {
-            return size;
-        }
-
-        public Boolean getBold() {
-            return bold;
-        }
-
-        @Override
-        public String toString() {
-            return "AnnotatedPrintableAnnotation{" +
-                    "field='" + field + '\'' +
-                    ", text='" + text + '\'' +
-                    ", x=" + x +
-                    ", y=" + y +
-                    ", size=" + size +
-                    ", bold='" + bold + '\'' +
-                    '}';
-        }
     }
 }

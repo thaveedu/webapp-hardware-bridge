@@ -15,7 +15,7 @@ public class SerialWebSocketService implements WebSocketServiceInterface {
     private final SerialPort serialPort;
     private byte[] writeBuffer = {};
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private WebSocketServerInterface server = null;
     private Thread readThread;
     private Thread writeThread;
@@ -30,60 +30,54 @@ public class SerialWebSocketService implements WebSocketServiceInterface {
 
     @Override
     public void start() {
-        readThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                logger.trace("Serial Read Thread started for " + portName);
+        readThread = new Thread(() -> {
+            logger.trace("Serial Read Thread started for " + portName);
 
-                while (!Thread.interrupted()) {
-                    try {
-                        if (serialPort.isOpen()) {
-                            if (serialPort.bytesAvailable() == 0) {
-                                // No data coming from COM portName
-                                ThreadUtil.silentSleep(10);
-                                continue;
-                            } else if (serialPort.bytesAvailable() == -1) {
-                                // Check if portName closed unexpected (e.g. Unplugged)
-                                serialPort.closePort();
-                                logger.warn("Serial unplugged!");
-                                continue;
-                            }
-
-                            byte[] receivedData = new byte[1];
-                            serialPort.readBytes(receivedData, 1);
-
-                            if (server != null) {
-                                server.onDataReceived(getChannel(), new String(receivedData, StandardCharsets.UTF_8));
-                            }
-                        } else {
-                            logger.trace("Trying to connect the serial @ " + serialPort.getSystemPortName());
-                            serialPort.openPort();
+            while (!Thread.interrupted()) {
+                try {
+                    if (serialPort.isOpen()) {
+                        if (serialPort.bytesAvailable() == 0) {
+                            // No data coming from COM portName
+                            ThreadUtil.silentSleep(10);
+                            continue;
+                        } else if (serialPort.bytesAvailable() == -1) {
+                            // Check if portName closed unexpected (e.g. Unplugged)
+                            serialPort.closePort();
+                            logger.warn("Serial unplugged!");
+                            continue;
                         }
-                    } catch (Exception e) {
-                        logger.warn("Error: " + e.getMessage(), e);
-                        ThreadUtil.silentSleep(1000);
+
+                        byte[] receivedData = new byte[1];
+                        serialPort.readBytes(receivedData, 1);
+
+                        if (server != null) {
+                            server.onDataReceived(getChannel(), new String(receivedData, StandardCharsets.UTF_8));
+                        }
+                    } else {
+                        logger.trace("Trying to connect the serial @ " + serialPort.getSystemPortName());
+                        serialPort.openPort();
                     }
+                } catch (Exception e) {
+                    logger.warn("Error: " + e.getMessage(), e);
+                    ThreadUtil.silentSleep(1000);
                 }
             }
         });
 
-        writeThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                logger.trace("Serial Write Thread started for " + portName);
+        writeThread = new Thread(() -> {
+            logger.trace("Serial Write Thread started for " + portName);
 
-                while (!Thread.interrupted()) {
-                    if (serialPort.isOpen()) {
-                        try {
-                            if (writeBuffer.length > 0) {
-                                serialPort.writeBytes(writeBuffer, writeBuffer.length);
-                                writeBuffer = new byte[]{};
-                            }
-                            ThreadUtil.silentSleep(10);
-                        } catch (Exception e) {
-                            logger.warn("Error: " + e.getMessage());
-                            ThreadUtil.silentSleep(1000);
+            while (!Thread.interrupted()) {
+                if (serialPort.isOpen()) {
+                    try {
+                        if (writeBuffer.length > 0) {
+                            serialPort.writeBytes(writeBuffer, writeBuffer.length);
+                            writeBuffer = new byte[]{};
                         }
+                        ThreadUtil.silentSleep(10);
+                    } catch (Exception e) {
+                        logger.warn("Error: " + e.getMessage());
+                        ThreadUtil.silentSleep(1000);
                     }
                 }
             }

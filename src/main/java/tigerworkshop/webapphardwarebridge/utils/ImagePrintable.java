@@ -20,10 +20,10 @@ public class ImagePrintable implements Printable {
         Graphics2D g2d = (Graphics2D) graphics;
         g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
 
-        Double width = pageFormat.getImageableWidth();
-        Double height = pageFormat.getImageableHeight();
+        double width = pageFormat.getImageableWidth();
+        double height = pageFormat.getImageableHeight();
 
-        g2d.drawImage(image, 0, 0, width.intValue(), height.intValue(), null, null);
+        g2d.drawImage(image, 0, 0, (int) width, (int) height, null, null);
 
         return Printable.PAGE_EXISTS;
     }
