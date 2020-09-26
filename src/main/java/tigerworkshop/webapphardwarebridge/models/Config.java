@@ -19,7 +19,7 @@ public class Config {
     }
 
     @Data
-    private static class ConfigWebSocketServer {
+    public static class ConfigWebSocketServer {
         String address = "127.0.0.1";
         String bind = "0.0.0.0";
         Integer port = 12212;
@@ -31,14 +31,14 @@ public class Config {
     }
 
     @Data
-    private static class ConfigDocument {
+    public static class ConfigDocument {
         Boolean downloadIgnoreTLSCertificateError = false;
         Integer downloadTimeout = 30;
         String path = "documents/";
     }
 
     @Data
-    private static class ConfigPrint {
+    public static class ConfigPrint {
         Boolean fallbackToDefaultPrinter = false;
         Boolean autoRotatePDF = false;
         Boolean resetImageableArea = true;
@@ -46,26 +46,26 @@ public class Config {
     }
 
     @Data
-    private static class ConfigCloudProxy {
+    public static class ConfigCloudProxy {
         Boolean enabled = false;
         String url = "ws://127.0.0.1:22212";
         Integer timeout = 30;
     }
 
     @Data
-    private static class ConfigAuthentication {
+    public static class ConfigAuthentication {
         Boolean enabled = false;
         String token = "ws://127.0.0.1:22212";
     }
 
     @Data
-    private static class ConfigPrinter {
+    public static class ConfigPrinter {
         String name;
         // TODO: What to set?
     }
 
     @Data
-    private static class ConfigSerial {
+    public static class ConfigSerial {
         String name;
         // TODO: What to set?
     }

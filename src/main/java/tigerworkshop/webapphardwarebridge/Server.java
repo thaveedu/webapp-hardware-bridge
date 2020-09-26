@@ -6,8 +6,9 @@ import it.sauronsoftware.junique.JUnique;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.NotificationListenerInterface;
+import tigerworkshop.webapphardwarebridge.models.Config;
 import tigerworkshop.webapphardwarebridge.models.Setting;
-import tigerworkshop.webapphardwarebridge.services.SettingService;
+import tigerworkshop.webapphardwarebridge.services.ConfigService;
 import tigerworkshop.webapphardwarebridge.utils.CertificateGenerator;
 import tigerworkshop.webapphardwarebridge.utils.TLSUtil;
 import tigerworkshop.webapphardwarebridge.websocketservices.CloudProxyClientWebSocketService;
@@ -64,19 +65,19 @@ public class Server {
             logger.debug("JVM Maximum memory (bytes): " + Runtime.getRuntime().maxMemory());
             logger.debug("System memory (bytes): " + ((OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalPhysicalMemorySize());
 
-            SettingService settingService = SettingService.getInstance();
-            Setting setting = settingService.getSetting();
+            ConfigService configService = ConfigService.getInstance();
+            Config config = configService.getConfig();
 
             try {
                 // Create WebSocket Server
-                bridgeWebSocketServer = new BridgeWebSocketServer(setting.getBind(), setting.getPort());
+                bridgeWebSocketServer = new BridgeWebSocketServer(config.getServer().getBind(), config.getServer().getPort());
                 bridgeWebSocketServer.setReuseAddr(true);
                 bridgeWebSocketServer.setConnectionLostTimeout(3);
 
                 // Add Serial Services
-                HashMap<String, String> serials = setting.getSerials();
-                for (Map.Entry<String, String> elem : serials.entrySet()) {
-                    SerialWebSocketService serialWebSocketService = new SerialWebSocketService(elem.getValue(), elem.getKey());
+                HashMap<String, Config.ConfigSerial> serials = config.getSerials();
+                for (Map.Entry<String, Config.ConfigSerial> elem : serials.entrySet()) {
+                    SerialWebSocketService serialWebSocketService = new SerialWebSocketService(elem.getValue().getName(), elem.getKey());
                     serialWebSocketService.setServer(bridgeWebSocketServer);
                     serialWebSocketService.start();
                 }
@@ -88,27 +89,27 @@ public class Server {
                 printerWebSocketService.start();
 
                 // Add Cloud Proxy Client Service
-                if (setting.getCloudProxyEnabled()) {
+                if (config.getCloudProxy().getEnabled()) {
                     CloudProxyClientWebSocketService cloudProxyClientWebSocketService = new CloudProxyClientWebSocketService();
                     cloudProxyClientWebSocketService.setServer(bridgeWebSocketServer);
                     cloudProxyClientWebSocketService.start();
                 }
 
                 // WSS/TLS Options
-                if (setting.getTLSEnabled()) {
-                    if (setting.getTLSSelfSigned()) {
+                if (config.getServer().getTlsEnabled()) {
+                    if (config.getServer().getTlsSelfSigned()) {
                         logger.info("TLS Enabled with self-signed certificate");
-                        CertificateGenerator.generateSelfSignedCertificate(setting.getAddress(), setting.getTLSCert(), setting.getTLSKey());
-                        logger.info("For first time setup, open in browser and trust the certificate: " + setting.getUri().replace("wss", "https"));
+                        CertificateGenerator.generateSelfSignedCertificate(config.getServer().getAddress(), config.getServer().getTlsCert(), config.getServer().getTlsKey());
+                        logger.info("For first time setup, open in browser and trust the certificate: " + config.getUri().replace("wss", "https"));
                     }
 
-                    bridgeWebSocketServer.setWebSocketFactory(TLSUtil.getSecureFactory(setting.getTLSCert(), setting.getTLSKey(), setting.getTLSCaBundle()));
+                    bridgeWebSocketServer.setWebSocketFactory(TLSUtil.getSecureFactory(config.getServer().getTlsCert(), config.getServer().getTlsKey(), config.getServer().getTlsCaBundle()));
                 }
 
                 // Start WebSocket Server
                 bridgeWebSocketServer.start();
 
-                logger.info("WebSocket started on " + setting.getUri());
+                logger.info("WebSocket started on " + config.getUri());
 
                 while (!shouldRestart && !shouldStop) {
                     Thread.sleep(100);

@@ -1,0 +1,34 @@
+{
+  "server": {
+    "address": "127.0.0.1",
+    "bind": "0.0.0.0",
+    "port": 12212,
+    "tlsEnabled": false,
+    "tlsSelfSigned": true,
+    "tlsCert": "tls/default-cert.pem",
+    "tlsKey": "tls/default-key.pem",
+    "tlsCaBundle": ""
+  },
+  "cloudProxy": {
+    "enabled": false,
+    "url": "ws://127.0.0.1:22212",
+    "timeout": 30
+  },
+  "document": {
+    "downloadIgnoreTLSCertificateError": false,
+    "downloadTimeout": 30,
+    "path": "documents/"
+  },
+  "print": {
+    "fallbackToDefaultPrinter": false,
+    "autoRotatePDF": false,
+    "resetImageableArea": true,
+    "printerDPI": 0
+  },
+  "authentication": {
+    "enabled": false,
+    "token": "ws://127.0.0.1:22212"
+  },
+  "printers": {},
+  "serials": {}
+}

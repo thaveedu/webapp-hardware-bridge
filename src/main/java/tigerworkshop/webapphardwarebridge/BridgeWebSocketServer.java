@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.WebSocketServerInterface;
 import tigerworkshop.webapphardwarebridge.interfaces.WebSocketServiceInterface;
-import tigerworkshop.webapphardwarebridge.services.SettingService;
+import tigerworkshop.webapphardwarebridge.services.ConfigService;
 import tigerworkshop.webapphardwarebridge.utils.ConnectionAttachment;
 
 import java.net.InetSocketAddress;
@@ -31,7 +31,7 @@ public class BridgeWebSocketServer extends WebSocketServer implements WebSocketS
     private final HashMap<String, ArrayList<WebSocketServiceInterface>> serviceChannelSubscriptions = new HashMap<>();
     private final ArrayList<WebSocketServiceInterface> services = new ArrayList<>();
 
-    private final SettingService settingService = SettingService.getInstance();
+    private final ConfigService configService = ConfigService.getInstance();
 
     public BridgeWebSocketServer(String address, int port) {
         super(new InetSocketAddress(address, port));
@@ -47,7 +47,7 @@ public class BridgeWebSocketServer extends WebSocketServer implements WebSocketS
             List<NameValuePair> params = URLEncodedUtils.parse(uri, StandardCharsets.UTF_8);
             String token = getToken(params);
 
-            if (settingService.getSetting().getAuthenticationEnabled() && (token == null || !token.equals(settingService.getSetting().getAuthenticationToken()))) {
+            if (configService.getConfig().getAuthentication().getEnabled() && (token == null || !token.equals(configService.getConfig().getAuthentication().getToken()))) {
                 connection.close(CloseFrame.REFUSE, "Token Mismatch");
                 return;
             }

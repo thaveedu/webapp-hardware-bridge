@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.WebSocketServerInterface;
 import tigerworkshop.webapphardwarebridge.interfaces.WebSocketServiceInterface;
-import tigerworkshop.webapphardwarebridge.services.SettingService;
+import tigerworkshop.webapphardwarebridge.services.ConfigService;
 
 import java.net.URI;
 
@@ -14,7 +14,7 @@ public class CloudProxyClientWebSocketService implements WebSocketServiceInterfa
     WebSocketClient client;
     private Logger logger = LoggerFactory.getLogger(getClass());
     private WebSocketServerInterface server = null;
-    private SettingService settingService = SettingService.getInstance();
+    private ConfigService configService = ConfigService.getInstance();
     private Thread thread;
 
     public CloudProxyClientWebSocketService() {
@@ -30,10 +30,10 @@ public class CloudProxyClientWebSocketService implements WebSocketServiceInterfa
                     try {
                         logger.trace("ProxyClientWebSocketService initializing");
 
-                        client = new WebSocketClient(new URI(settingService.getSetting().getCloudProxyUrl())) {
+                        client = new WebSocketClient(new URI(configService.getConfig().getUri())) {
                             @Override
                             public void onOpen(ServerHandshake handshakedata) {
-                                logger.info("ProxyClientWebSocketService connected to " + this.getURI() + ", timeout = " + settingService.getSetting().getCloudProxyTimeout());
+                                logger.info("ProxyClientWebSocketService connected to " + this.getURI() + ", timeout = " + configService.getConfig().getCloudProxy().getTimeout());
                             }
 
                             @Override
@@ -53,7 +53,7 @@ public class CloudProxyClientWebSocketService implements WebSocketServiceInterfa
                                 logger.info("ProxyClientWebSocketService connection error: " + ex.getMessage());
                             }
                         };
-                        client.setConnectionLostTimeout(settingService.getSetting().getCloudProxyTimeout().intValue());
+                        client.setConnectionLostTimeout(configService.getConfig().getCloudProxy().getTimeout());
                         client.connectBlocking();
 
                         logger.trace("ProxyClientWebSocketService initialized");

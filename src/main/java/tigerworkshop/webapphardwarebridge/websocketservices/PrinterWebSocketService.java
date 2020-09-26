@@ -12,8 +12,8 @@ import tigerworkshop.webapphardwarebridge.interfaces.WebSocketServerInterface;
 import tigerworkshop.webapphardwarebridge.interfaces.WebSocketServiceInterface;
 import tigerworkshop.webapphardwarebridge.responses.PrintDocument;
 import tigerworkshop.webapphardwarebridge.responses.PrintResult;
+import tigerworkshop.webapphardwarebridge.services.ConfigService;
 import tigerworkshop.webapphardwarebridge.services.DocumentService;
-import tigerworkshop.webapphardwarebridge.services.SettingService;
 import tigerworkshop.webapphardwarebridge.utils.AnnotatedPrintable;
 import tigerworkshop.webapphardwarebridge.utils.ImagePrintable;
 
@@ -29,7 +29,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
     private WebSocketServerInterface server = null;
     private final Gson gson = new Gson();
 
-    private final SettingService settingService = SettingService.getInstance();
+    private final ConfigService configService = ConfigService.getInstance();
     private NotificationListenerInterface notificationListener;
 
     public PrinterWebSocketService() {
@@ -111,7 +111,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
      */
     private String findMappedPrinter(String type) {
         logger.trace("findMappedPrinter::" + type);
-        return settingService.getSetting().getPrinters().get(type);
+        return configService.getConfig().getPrinters().get(type).getName();
     }
 
     /**
@@ -218,7 +218,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
             Book book = new Book();
             for (int i = 0; i < document.getNumberOfPages(); i += 1) {
                 // Rotate Page Automatically
-                if (settingService.getSetting().getAutoRotation()) {
+                if (configService.getConfig().getPrint().getAutoRotatePDF()) {
                     if (document.getPage(i).getCropBox().getWidth() > document.getPage(i).getCropBox().getHeight()) {
                         logger.debug("Auto rotation result: LANDSCAPE");
                         pageFormat.setOrientation(PageFormat.LANDSCAPE);
@@ -228,7 +228,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
                     }
                 }
 
-                AnnotatedPrintable printable = new AnnotatedPrintable(new PDFPrintable(document, Scaling.SHRINK_TO_FIT, false, settingService.getSetting().getPrinterDPI()));
+                AnnotatedPrintable printable = new AnnotatedPrintable(new PDFPrintable(document, Scaling.SHRINK_TO_FIT, false, configService.getConfig().getPrint().getPrinterDPI()));
 
                 for (AnnotatedPrintable.AnnotatedPrintableAnnotation printDocumentExtra : printDocument.getExtras()) {
                     printable.addAnnotation(printDocumentExtra);
@@ -265,7 +265,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
         logger.debug("Paper Imageable Size: " + pageFormat.getPaper().getImageableWidth() + " x " + pageFormat.getPaper().getImageableHeight() + ", XY: " + pageFormat.getPaper().getImageableX() + ", " + pageFormat.getPaper().getImageableY());
 
         // Reset Imageable Area
-        if (settingService.getSetting().getResetImageableArea()) {
+        if (configService.getConfig().getPrint().getResetImageableArea()) {
             logger.debug("PageFormat reset enabled");
             Paper paper = pageFormat.getPaper();
             paper.setImageableArea(0, 0, paper.getWidth(), paper.getHeight());
@@ -295,7 +295,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
             }
         }
 
-        if (settingService.getSetting().getFallbackToDefaultPrinter()) {
+        if (configService.getConfig().getPrint().getFallbackToDefaultPrinter()) {
             logger.info("No mapped print job type: " + type + ", falling back to default printer");
             return PrintServiceLookup.lookupDefaultPrintService().createPrintJob();
         } else {

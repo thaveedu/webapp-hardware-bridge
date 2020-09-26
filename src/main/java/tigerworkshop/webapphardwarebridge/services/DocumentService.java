@@ -13,10 +13,10 @@ import java.io.OutputStream;
 public class DocumentService {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(DocumentService.class.getName());
     private static final DocumentService instance = new DocumentService();
-    private static final SettingService settingService = SettingService.getInstance();
+    private static final ConfigService configService = ConfigService.getInstance();
 
     private DocumentService() {
-        File directory = new File(Constants.DOCUMENT_PATH);
+        File directory = new File(configService.getConfig().getDocument().getPath());
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -35,7 +35,7 @@ public class DocumentService {
     }
 
     public static void download(String urlString) throws Exception {
-        DownloadUtil.file(urlString, getPathFromUrl(urlString), true, settingService.getSetting().getIgnoreTLSCertificateErrorEnabled(), settingService.getSetting().getDownloadTimeout());
+        DownloadUtil.file(urlString, getPathFromUrl(urlString), true, configService.getConfig().getDocument().getDownloadIgnoreTLSCertificateError(), configService.getConfig().getDocument().getDownloadTimeout());
     }
 
     public static File getFileFromUrl(String urlString) {
@@ -49,7 +49,7 @@ public class DocumentService {
     public static String getPathFromUrl(String urlString) {
         urlString = urlString.replace(" ", "%20");
         String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
-        return Constants.DOCUMENT_PATH + filename;
+        return configService.getConfig().getDocument().getPath() + filename;
     }
 
     public void prepareDocument(PrintDocument printDocument) throws Exception {

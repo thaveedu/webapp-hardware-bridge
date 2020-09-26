@@ -2,13 +2,6 @@ package tigerworkshop.webapphardwarebridge;
 
 import it.sauronsoftware.junique.AlreadyLockedException;
 import it.sauronsoftware.junique.JUnique;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.NotificationListenerInterface;
@@ -20,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class GUI extends Application implements NotificationListenerInterface {
+public class GUI implements NotificationListenerInterface {
     private static final Logger logger = LoggerFactory.getLogger("GUI");
 
     TrayIcon trayIcon;
@@ -58,29 +51,7 @@ public class GUI extends Application implements NotificationListenerInterface {
             settingItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Platform.setImplicitExit(false);
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/setting.fxml"));
-
-                                Stage stage = new Stage();
-                                stage.setTitle("WebApp Hardware Bridge Configurator");
-                                stage.setScene(new Scene(loader.load()));
-                                stage.setResizable(false);
-                                stage.show();
-                                stage.setOnHiding(new EventHandler<WindowEvent>() {
-                                    @Override
-                                    public void handle(WindowEvent event) {
-                                        server.restart();
-                                    }
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+                    // TODO: Start web configurator
                 }
             });
 
@@ -140,10 +111,5 @@ public class GUI extends Application implements NotificationListenerInterface {
         } catch (Exception e) {
             
         }
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
     }
 }
