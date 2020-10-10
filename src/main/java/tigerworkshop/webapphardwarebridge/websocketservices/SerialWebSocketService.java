@@ -55,6 +55,7 @@ public class SerialWebSocketService implements WebSocketServiceInterface {
                         }
                     } else {
                         logger.trace("Trying to connect the serial @ " + serialPort.getSystemPortName());
+                        ThreadUtil.silentSleep(100);
                         serialPort.openPort();
                     }
                 } catch (Exception e) {
