@@ -1,0 +1,234 @@
+{
+  "title": "Setting",
+  "type": "object",
+  "id": "setting",
+  "properties": {
+    "server": {
+      "type": "object",
+      "title": "Server",
+      "required": [
+        "address",
+        "bind",
+        "port"
+      ],
+      "properties": {
+        "address": {
+          "title": "Address",
+          "type": "string"
+        },
+        "bind": {
+          "title": "Bind Address",
+          "type": "string"
+        },
+        "port": {
+          "title": "Port",
+          "type": "integer",
+          "default": 12212,
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "tlsEnabled": {
+          "title": "TLS Enabled",
+          "type": "boolean"
+        },
+        "tlsSelfSigned": {
+          "title": "TLS Self-Signed",
+          "type": "boolean"
+        },
+        "tlsCert": {
+          "title": "TLS Cert Path",
+          "type": "string"
+        },
+        "tlsKey": {
+          "title": "TLS Key Path",
+          "type": "string"
+        },
+        "tlsCaBundle": {
+          "title": "TLS CA Bundle Path",
+          "type": "string"
+        }
+      }
+    },
+    "api": {
+      "type": "object",
+      "title": "API",
+      "required": [
+        "enabled",
+        "address",
+        "bind",
+        "port"
+      ],
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "address": {
+          "title": "Address",
+          "type": "string"
+        },
+        "bind": {
+          "title": "Bind Address",
+          "type": "string"
+        },
+        "port": {
+          "title": "Port",
+          "type": "integer",
+          "default": 12212,
+          "minimum": 1024,
+          "maximum": 65535
+        }
+      }
+    },
+    "downloader": {
+      "type": "object",
+      "title": "Downloader",
+      "required": [
+        "ignoreTLSCertificateError",
+        "path",
+        "timeout"
+      ],
+      "properties": {
+        "ignoreTLSCertificateError": {
+          "title": "Ignore TLS Certificate Error",
+          "type": "boolean"
+        },
+        "path": {
+          "title": "Download Path",
+          "type": "string"
+        },
+        "timeout": {
+          "title": "Download Timeout",
+          "type": "integer",
+          "default": 30,
+          "minimum": 1,
+          "maximum": 300
+        }
+      }
+    },
+    "print": {
+      "type": "object",
+      "title": "Printing",
+      "required": [
+        "fallbackToDefaultPrinter",
+        "autoRotatePDF",
+        "resetImageableArea",
+        "printerDPI"
+      ],
+      "properties": {
+        "fallbackToDefaultPrinter": {
+          "title": "Fallback to Default Printer if no mapped printer found",
+          "type": "boolean"
+        },
+        "autoRotatePDF": {
+          "title": "Auto Rotate PDF",
+          "type": "boolean"
+        },
+        "resetImageableArea": {
+          "title": "Reset Imageable Area",
+          "type": "boolean"
+        },
+        "printerDPI": {
+          "title": "Printer DPI (0 for Auto)",
+          "type": "integer",
+          "default": 0
+        }
+      }
+    },
+    "cloudProxy": {
+      "type": "object",
+      "title": "Cloud Proxy",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "url": {
+          "title": "Remote Cloud Proxy Address",
+          "type": "string"
+        },
+        "timeout": {
+          "title": "Connection Timeout",
+          "type": "integer",
+          "default": 30,
+          "minimum": 1,
+          "maximum": 300
+        }
+      }
+    },
+    "authentication": {
+      "type": "object",
+      "title": "Authentication",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "token": {
+          "title": "Token",
+          "type": "string"
+        }
+      }
+    },
+    "printers": {
+      "type": "array",
+      "format": "table",
+      "title": "Printers",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "name"
+        ],
+        "properties": {
+          "type": {
+            "title": "Type",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "options": {
+            "title": "Options",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "serials": {
+      "type": "array",
+      "format": "table",
+      "title": "Serials",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "name"
+        ],
+        "properties": {
+          "type": {
+            "title": "Type",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "options": {
+            "title": "Options",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

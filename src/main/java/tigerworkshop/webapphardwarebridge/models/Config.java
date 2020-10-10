@@ -73,15 +73,15 @@ public class Config {
 
     @Data
     public static class ConfigPrinter {
-        String key;
+        String type;
         String name;
-        // TODO: What to set?
+        String options;
     }
 
     @Data
     public static class ConfigSerial {
-        String key;
+        String type;
         String name;
-        // TODO: What to set?
+        String options;
     }
 }

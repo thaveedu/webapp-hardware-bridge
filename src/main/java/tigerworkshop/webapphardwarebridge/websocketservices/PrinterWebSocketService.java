@@ -113,7 +113,7 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
     private String findMappedPrinter(String type) {
         logger.trace("findMappedPrinter::" + type);
         for (Config.ConfigPrinter printer : configService.getConfig().getPrinters()) {
-            if (printer.getKey().equals(type)) return printer.getName();
+            if (printer.getType().equals(type)) return printer.getName();
         }
         return null;
     }

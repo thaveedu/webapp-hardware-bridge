@@ -76,7 +76,7 @@ public class Server {
                 // Add Serial Services
                 ArrayList<Config.ConfigSerial> serials = config.getSerials();
                 for (Config.ConfigSerial elem : serials) {
-                    SerialWebSocketService serialWebSocketService = new SerialWebSocketService(elem.getName(), elem.getKey());
+                    SerialWebSocketService serialWebSocketService = new SerialWebSocketService(elem.getName(), elem.getType());
                     serialWebSocketService.setServer(bridgeWebSocketServer);
                     serialWebSocketService.start();
                 }
