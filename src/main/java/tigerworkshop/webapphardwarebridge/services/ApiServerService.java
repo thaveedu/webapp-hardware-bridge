@@ -20,7 +20,7 @@ public class ApiServerService extends SimpleWebServer {
 
     public void start() throws IOException  {
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-        logger.info("HTTP Configurator started on: {}", configService.getConfig().getApiUri());
+        logger.info("HTTP Configurator started on {}", configService.getConfig().getApiUri());
     }
 
     @Override

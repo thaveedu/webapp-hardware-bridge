@@ -5,6 +5,7 @@ import it.sauronsoftware.junique.JUnique;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.NotificationListenerInterface;
+import tigerworkshop.webapphardwarebridge.services.ConfigService;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 public class GUI implements NotificationListenerInterface {
     private static final Logger logger = LoggerFactory.getLogger("GUI");
@@ -34,6 +36,8 @@ public class GUI implements NotificationListenerInterface {
             System.exit(1);
         }
 
+        ConfigService configService = ConfigService.getInstance();
+
         // Create tray icon
         try {
             if (!SystemTray.isSupported()) {
@@ -51,7 +55,11 @@ public class GUI implements NotificationListenerInterface {
             settingItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // TODO: Start web configurator
+                    try {
+                        Desktop.getDesktop().browse(new URI(configService.getConfig().getApiUri()));
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
 
