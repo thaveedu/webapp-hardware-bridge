@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.NotificationListenerInterface;
 import tigerworkshop.webapphardwarebridge.models.Config;
-import tigerworkshop.webapphardwarebridge.services.ConfigService;
 import tigerworkshop.webapphardwarebridge.services.ApiServerService;
+import tigerworkshop.webapphardwarebridge.services.ConfigService;
 import tigerworkshop.webapphardwarebridge.utils.CertificateGenerator;
 import tigerworkshop.webapphardwarebridge.utils.TLSUtil;
 import tigerworkshop.webapphardwarebridge.websocketservices.CloudProxyClientWebSocketService;
@@ -16,8 +16,7 @@ import tigerworkshop.webapphardwarebridge.websocketservices.PrinterWebSocketServ
 import tigerworkshop.webapphardwarebridge.websocketservices.SerialWebSocketService;
 
 import java.lang.management.ManagementFactory;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class Server {
 
@@ -75,9 +74,9 @@ public class Server {
                 bridgeWebSocketServer.setConnectionLostTimeout(3);
 
                 // Add Serial Services
-                HashMap<String, Config.ConfigSerial> serials = config.getSerials();
-                for (Map.Entry<String, Config.ConfigSerial> elem : serials.entrySet()) {
-                    SerialWebSocketService serialWebSocketService = new SerialWebSocketService(elem.getValue().getName(), elem.getKey());
+                ArrayList<Config.ConfigSerial> serials = config.getSerials();
+                for (Config.ConfigSerial elem : serials) {
+                    SerialWebSocketService serialWebSocketService = new SerialWebSocketService(elem.getName(), elem.getKey());
                     serialWebSocketService.setServer(bridgeWebSocketServer);
                     serialWebSocketService.start();
                 }

@@ -2,7 +2,7 @@ package tigerworkshop.webapphardwarebridge.models;
 
 import lombok.Data;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 @Data
 public class Config {
@@ -10,10 +10,10 @@ public class Config {
     ConfigApiServer api = new ConfigApiServer();
     ConfigDownloader downloader = new ConfigDownloader();
     ConfigPrint print = new ConfigPrint();
-    ConfigAuthentication authentication = new ConfigAuthentication();
     ConfigCloudProxy cloudProxy = new ConfigCloudProxy();
-    HashMap<String, ConfigPrinter> printers = new HashMap<>();
-    HashMap<String, ConfigSerial> serials = new HashMap<>();
+    ConfigAuthentication authentication = new ConfigAuthentication();
+    ArrayList<ConfigPrinter> printers = new ArrayList<>();
+    ArrayList<ConfigSerial> serials = new ArrayList<>();
 
     public String getWebSocketUri() {
         return (getServer().getTlsEnabled() ? "wss" : "ws") + "://" + getServer().getAddress() + ":" + getServer().getPort();
@@ -68,17 +68,19 @@ public class Config {
     @Data
     public static class ConfigAuthentication {
         Boolean enabled = false;
-        String token = "ws://127.0.0.1:22212";
+        String token = "";
     }
 
     @Data
     public static class ConfigPrinter {
+        String key;
         String name;
         // TODO: What to set?
     }
 
     @Data
     public static class ConfigSerial {
+        String key;
         String name;
         // TODO: What to set?
     }

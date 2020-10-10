@@ -9,10 +9,11 @@
     "tlsKey": "tls/default-key.pem",
     "tlsCaBundle": ""
   },
-  "cloudProxy": {
-    "enabled": false,
-    "url": "ws://127.0.0.1:22212",
-    "timeout": 30
+  "api": {
+    "enabled": true,
+    "address": "127.0.0.1",
+    "bind": "127.0.0.1",
+    "port": 12222
   },
   "downloader": {
     "ignoreTLSCertificateError": false,
@@ -25,10 +26,15 @@
     "resetImageableArea": true,
     "printerDPI": 0
   },
+  "cloudProxy": {
+    "enabled": false,
+    "url": "ws://127.0.0.1:22212",
+    "timeout": 30
+  },
   "authentication": {
     "enabled": false,
-    "token": "ws://127.0.0.1:22212"
+    "token": ""
   },
-  "printers": {},
-  "serials": {}
+  "printers": [],
+  "serials": []
 }

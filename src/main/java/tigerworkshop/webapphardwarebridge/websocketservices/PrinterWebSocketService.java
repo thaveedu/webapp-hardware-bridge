@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import tigerworkshop.webapphardwarebridge.interfaces.NotificationListenerInterface;
 import tigerworkshop.webapphardwarebridge.interfaces.WebSocketServerInterface;
 import tigerworkshop.webapphardwarebridge.interfaces.WebSocketServiceInterface;
+import tigerworkshop.webapphardwarebridge.models.Config;
 import tigerworkshop.webapphardwarebridge.responses.PrintDocument;
 import tigerworkshop.webapphardwarebridge.responses.PrintResult;
 import tigerworkshop.webapphardwarebridge.services.ConfigService;
@@ -111,7 +112,10 @@ public class PrinterWebSocketService implements WebSocketServiceInterface {
      */
     private String findMappedPrinter(String type) {
         logger.trace("findMappedPrinter::" + type);
-        return configService.getConfig().getPrinters().get(type).getName();
+        for (Config.ConfigPrinter printer : configService.getConfig().getPrinters()) {
+            if (printer.getKey().equals(type)) return printer.getName();
+        }
+        return null;
     }
 
     /**
