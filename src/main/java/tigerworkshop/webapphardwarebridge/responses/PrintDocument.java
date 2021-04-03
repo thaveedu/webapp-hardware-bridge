@@ -5,6 +5,7 @@ import tigerworkshop.webapphardwarebridge.utils.AnnotatedPrintable;
 import java.util.ArrayList;
 
 public class PrintDocument {
+    String category;
     String type;
     String url;
     String id;
@@ -14,12 +15,17 @@ public class PrintDocument {
     ArrayList<AnnotatedPrintable.AnnotatedPrintableAnnotation> extras = new ArrayList<>();
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
+
+    public String getCategory() {
+        return this.category;
+    }
+
 
     public String getId() {
         return id;
@@ -44,6 +50,7 @@ public class PrintDocument {
     @Override
     public String toString() {
         return "PrintDocument{" +
+                "category='" + category + '\'' +
                 "type='" + type + '\'' +
                 ", url='" + url + '\'' +
                 ", id='" + id + '\'' +

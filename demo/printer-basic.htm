@@ -17,6 +17,16 @@
 
     <hr/>
 
+
+    <label>PDF by HTML</label>
+    <div class="input-group mb-3">
+        <input class="form-control" id="url" type="text" value="TEST"/>
+
+        <div class="input-group-append">
+            <button class="btn btn-success" onclick="printHTML()">Print</button>
+        </div>
+    </div>
+
     <label>PDF by URL</label>
     <div class="input-group mb-3">
         <input class="form-control" id="url" type="text" value="https://tcpdf.org/files/examples/example_002.pdf"/>
@@ -53,6 +63,15 @@
 <script src="websocket-printer.js"></script>
 <script>
     var printService = new WebSocketPrinter();
+    
+    function printHTML() {
+        printService.submit({
+            'type': 'INVOICE',
+            'category': 'HTML',
+            'url': 'file.pdf',
+            'file_content': 'Test Print'
+        });
+    }
 
     function printPDF() {
         printService.submit({

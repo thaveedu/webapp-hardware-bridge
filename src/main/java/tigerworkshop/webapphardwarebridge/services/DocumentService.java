@@ -57,6 +57,12 @@ public class DocumentService {
             return;
         }
 
+        String category = printDocument.getCategory();
+
+        if("HTML".equalsIgnoreCase(category)){
+            return;
+        }
+
         if (printDocument.getUrl() == null && printDocument.getFileContent() == null) {
             throw new Exception("URL is null");
         }
